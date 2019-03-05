@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+ <!--配置目标类-->
+ <bean id="SpringserviceId" class="com.ibm.springautoproxy.impl.SpringAutoServiceImpl"></bean>
+ <!--配置切面-->
+<bean id="AspectOId" class="com.ibm.springautoproxy.SpringAutoAspect"></bean>
+
+ <!--配置
+  <aop:pointcut  切入点-其实就是获取要指定的目标方法，用作被增强的方法,在这里代表insert与delete方法
+  <aop:advisor    特殊的切面-配置通知与切入点，实现对切入点方法的增强
+  proxy-target-class="true"> 声明式CGLIB
+ -->
+<aop:config proxy-target-class="true">
+  <aop:pointcut id="spring_autoproxy" expression="execution(* com.ibm.springautoproxy.impl.SpringAutoServiceImpl.*(..))"></aop:pointcut>
+  <aop:advisor advice-ref="AspectOId" pointcut-ref="spring_autoproxy"></aop:advisor>
+</aop:config>
+
+</beans>

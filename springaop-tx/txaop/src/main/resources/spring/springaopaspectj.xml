@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+ <!--配置目标类-->
+ <bean id="SpringserviceId" class="com.ibm.aspect.AspectJserviceImpl"></bean>
+ <!--配置切面-->
+<bean id="AspectOId" class="com.ibm.aspect.AspectJAspect"></bean>
+
+ <!--
+  <aop:pointcut  可以被多个通知公用
+
+  <aop:before method="aspectjBefor" pointcut-ref="aspectjPointCut" pointcut="">中
+  pointcut-ref属性表示去公用的pointcut切入点    pointcut为前置通知定制自己特有的pointcut切入点
+ -->
+<aop:config>
+  <aop:aspect ref="AspectOId">
+    <aop:pointcut id="aspectjPointCut" expression="execution(* com.ibm.aspect.AspectJserviceImpl.*(..))"></aop:pointcut>
+
+<!--   <aop:before method="aspectjBefor" pointcut-ref="aspectjPointCut"></aop:before>-->
+
+ <!--  <aop:after-returning method="aspectjAfterReturn" pointcut-ref="aspectjPointCut" returning="ret"></aop:after-returning>-->
+
+  <!-- <aop:around method="aspectjAround" pointcut-ref="aspectjPointCut"></aop:around>-->
+      <aop:after-throwing method="aspectjThrows" pointcut-ref="aspectjPointCut" throwing="e"></aop:after-throwing>
+
+      <aop:after method="aspectjFinally" pointcut-ref="aspectjPointCut"></aop:after>
+  </aop:aspect>
+</aop:config>
+
+</beans>

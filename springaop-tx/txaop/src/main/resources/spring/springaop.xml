@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+ <!--配置目标类-->
+ <bean id="SpringserviceId" class="com.ibm.springproxy.impl.SpringServiceImpl"></bean>
+ <!--配置切面-->
+<bean id="AspectOId" class="com.ibm.springproxy.SpringAspect"></bean>
+
+ <!--配置目标类结合
+
+ <property name="target"返回值为object对象  用ref接受                -目标
+ <property name="proxyInterfaces"   返回值为单值数组，用value接收        -接口
+ <property name="interceptorNames"                              -为继承了环绕接口的通知类
+ <property name="optimize"  强制使用CGLIB
+
+  ProxyFactoryBean  产生bean的工厂，通过上面给定的对象来产生代理类
+ -->
+
+ <bean id="Proxy_Class" class="org.springframework.aop.framework.ProxyFactoryBean">
+  <property name="target" ref="SpringserviceId"></property>
+  <property name="proxyInterfaces" value="com.ibm.springproxy.SpringService"></property>
+  <property name="interceptorNames" value="AspectOId"></property>
+  <property name="optimize" value="true"></property>
+ </bean>
+
+
+</beans>
